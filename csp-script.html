@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Preload scanner test: meta CSP before script</title>
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <script src="https://slowfil.es/file?type=js&delay=2500"></script>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♠</text></svg>">
+</head>
+
+<body>
+  <script src="https://slowfil.es/file?type=js&delay=100"></script>
+  <h1>Preload scanner test: meta CSP before script</h1>
+  <img src="https://placekitten.com/200/300">
+  <script>
+    new PerformanceObserver(list => {
+      const img = list.getEntries().find(r => r.initiatorType == 'img')
+      if (!img) {
+        return;
+      }
+      const p = document.createElement('p');
+      p.textContent = 'Image load start time: ' + new Intl.NumberFormat('en-US', {
+        style: "unit",
+        unit: "second",
+        unitDisplay: "long",
+        maximumFractionDigits: 1
+      }).format(img.startTime / 1000);
+      document.body.appendChild(p);
+    }).observe({type: "resource", buffered: true});
+  </script>
+</body>
+</html>
