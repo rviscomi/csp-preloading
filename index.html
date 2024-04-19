@@ -11,6 +11,11 @@
   <script src="https://slowfil.es/file?type=js&delay=100"></script>
   <h1>Preload scanner test: no CSP</h1>
   <img src="https://placekitten.com/200/300">
+  <ul>
+    <li><a href="index.html">No CSP</a></li>
+    <li><a href="csp-script.html">CSP before script</a></li>
+    <li><a href="script-csp.html">Script before CSP</a></li>
+  </ul>
   <script>
     new PerformanceObserver(list => {
       const img = list.getEntries().find(r => r.initiatorType == 'img')
